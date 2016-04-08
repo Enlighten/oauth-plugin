@@ -90,155 +90,155 @@ describe OAuth::Rack::OAuthFilter do
     end
   end
 
-  describe "OAuth2" do
-    describe "token given through a HTTP Auth Header" do
-      context "authorized and non-invalidated token" do
-        it "authenticates" do
-          get '/', {}, { "HTTP_AUTHORIZATION" => "Bearer valid_token" }
-          last_response.should be_ok
-          response = MultiJson.decode(last_response.body)
-          response.should == { "oauth_token" => "valid_token", "oauth_version" => 2, "strategies"=> ["oauth20_token", "token"] }
-        end
-      end
-
-      context "non-authorized token" do
-        it "doesn't authenticate" do
-          get '/', {}, { "HTTP_AUTHORIZATION" => "Bearer not_authorized" }
-          last_response.should be_ok
-          response = MultiJson.decode(last_response.body)
-          response.should == {}
-        end
-      end
-
-      context "authorized and invalidated token" do
-        it "doesn't authenticate with an invalidated token" do
-          get '/', {}, { "HTTP_AUTHORIZATION" => "Bearer invalidated" }
-          last_response.should be_ok
-          response = MultiJson.decode(last_response.body)
-          response.should == {}
-        end
-      end
-    end
-
-    describe "OAuth2 pre Bearer" do
-      describe "token given through a HTTP Auth Header" do
-        context "authorized and non-invalidated token" do
-          it "authenticates" do
-            get '/', {}, { "HTTP_AUTHORIZATION" => "OAuth valid_token" }
-            last_response.should be_ok
-            response = MultiJson.decode(last_response.body)
-            response.should == { "oauth_token" => "valid_token", "oauth_version" => 2, "strategies"=> ["oauth20_token", "token"] }
-          end
-        end
-
-        context "non-authorized token" do
-          it "doesn't authenticate" do
-            get '/', {}, { "HTTP_AUTHORIZATION" => "OAuth not_authorized" }
-            last_response.should be_ok
-            response = MultiJson.decode(last_response.body)
-            response.should == {}
-          end
-        end
-
-        context "authorized and invalidated token" do
-          it "doesn't authenticate with an invalidated token" do
-            get '/', {}, { "HTTP_AUTHORIZATION" => "OAuth invalidated" }
-            last_response.should be_ok
-            response = MultiJson.decode(last_response.body)
-            response.should == {}
-          end
-        end
-      end
-    end
-
-    describe "token given through a HTTP Auth Header following the OAuth2 pre draft" do
-      context "authorized and non-invalidated token" do
-        it "authenticates" do
-          get '/', {}, { "HTTP_AUTHORIZATION" => "Token valid_token" }
-          last_response.should be_ok
-          response = MultiJson.decode(last_response.body)
-          response.should == { "oauth_token" => "valid_token", "oauth_version" => 2, "strategies"=> ["oauth20_token", "token"] }
-        end
-      end
-
-      context "non-authorized token" do
-        it "doesn't authenticate" do
-          get '/', {}, { "HTTP_AUTHORIZATION" => "Token not_authorized" }
-          last_response.should be_ok
-          response = MultiJson.decode(last_response.body)
-          response.should == {}
-        end
-      end
-
-      context "authorized and invalidated token" do
-        it "doesn't authenticate with an invalidated token" do
-          get '/', {}, { "HTTP_AUTHORIZATION" => "Token invalidated" }
-          last_response.should be_ok
-          response = MultiJson.decode(last_response.body)
-          response.should == {}
-        end
-      end
-    end
-
-    ['bearer_token', 'access_token', 'oauth_token'].each do |name|
-      describe "token given through the query parameter '#{name}'" do
-        context "authorized and non-invalidated token" do
-          it "authenticates" do
-            get "/?#{name}=valid_token"
-
-            last_response.should be_ok
-            response = MultiJson.decode(last_response.body)
-            response.should == { "oauth_token" => "valid_token", "oauth_version" => 2, "strategies"=> ["oauth20_token", "token"] }
-          end
-        end
-
-        context "non-authorized token" do
-          it "doesn't authenticate" do
-            get "/?#{name}=not_authorized"
-            last_response.should be_ok
-            response = MultiJson.decode(last_response.body)
-            response.should == {}
-          end
-        end
-
-        context "authorized and invalidated token" do
-          it "doesn't authenticate with an invalidated token" do
-            get "/?#{name}=invalidated"
-            last_response.should be_ok
-            response = MultiJson.decode(last_response.body)
-            response.should == {}
-          end
-        end
-      end
-
-      describe "token given through the post parameter '#{name}'" do
-        context "authorized and non-invalidated token" do
-          it "authenticates" do
-            post '/', name => 'valid_token'
-            last_response.should be_ok
-            response = MultiJson.decode(last_response.body)
-            response.should == { "oauth_token" => "valid_token", "oauth_version" => 2, "strategies"=> ["oauth20_token", "token"] }
-          end
-        end
-
-        context "non-authorized token" do
-          it "doesn't authenticate" do
-            post '/', name => 'not_authorized'
-            last_response.should be_ok
-            response = MultiJson.decode(last_response.body)
-            response.should == {}
-          end
-        end
-
-        context "authorized and invalidated token" do
-          it "doesn't authenticate with an invalidated token" do
-            post '/', name => 'invalidated'
-            last_response.should be_ok
-            response = MultiJson.decode(last_response.body)
-            response.should == {}
-          end
-        end
-      end
-    end
-  end
+  # describe "OAuth2" do
+  #   describe "token given through a HTTP Auth Header" do
+  #     context "authorized and non-invalidated token" do
+  #       it "authenticates" do
+  #         get '/', {}, { "HTTP_AUTHORIZATION" => "Bearer valid_token" }
+  #         last_response.should be_ok
+  #         response = MultiJson.decode(last_response.body)
+  #         response.should == { "oauth_token" => "valid_token", "oauth_version" => 2, "strategies"=> ["oauth20_token", "token"] }
+  #       end
+  #     end
+  #
+  #     context "non-authorized token" do
+  #       it "doesn't authenticate" do
+  #         get '/', {}, { "HTTP_AUTHORIZATION" => "Bearer not_authorized" }
+  #         last_response.should be_ok
+  #         response = MultiJson.decode(last_response.body)
+  #         response.should == {}
+  #       end
+  #     end
+  #
+  #     context "authorized and invalidated token" do
+  #       it "doesn't authenticate with an invalidated token" do
+  #         get '/', {}, { "HTTP_AUTHORIZATION" => "Bearer invalidated" }
+  #         last_response.should be_ok
+  #         response = MultiJson.decode(last_response.body)
+  #         response.should == {}
+  #       end
+  #     end
+  #   end
+  #
+  #   describe "OAuth2 pre Bearer" do
+  #     describe "token given through a HTTP Auth Header" do
+  #       context "authorized and non-invalidated token" do
+  #         it "authenticates" do
+  #           get '/', {}, { "HTTP_AUTHORIZATION" => "OAuth valid_token" }
+  #           last_response.should be_ok
+  #           response = MultiJson.decode(last_response.body)
+  #           response.should == { "oauth_token" => "valid_token", "oauth_version" => 2, "strategies"=> ["oauth20_token", "token"] }
+  #         end
+  #       end
+  #
+  #       context "non-authorized token" do
+  #         it "doesn't authenticate" do
+  #           get '/', {}, { "HTTP_AUTHORIZATION" => "OAuth not_authorized" }
+  #           last_response.should be_ok
+  #           response = MultiJson.decode(last_response.body)
+  #           response.should == {}
+  #         end
+  #       end
+  #
+  #       context "authorized and invalidated token" do
+  #         it "doesn't authenticate with an invalidated token" do
+  #           get '/', {}, { "HTTP_AUTHORIZATION" => "OAuth invalidated" }
+  #           last_response.should be_ok
+  #           response = MultiJson.decode(last_response.body)
+  #           response.should == {}
+  #         end
+  #       end
+  #     end
+  #   end
+  #
+  #   describe "token given through a HTTP Auth Header following the OAuth2 pre draft" do
+  #     context "authorized and non-invalidated token" do
+  #       it "authenticates" do
+  #         get '/', {}, { "HTTP_AUTHORIZATION" => "Token valid_token" }
+  #         last_response.should be_ok
+  #         response = MultiJson.decode(last_response.body)
+  #         response.should == { "oauth_token" => "valid_token", "oauth_version" => 2, "strategies"=> ["oauth20_token", "token"] }
+  #       end
+  #     end
+  #
+  #     context "non-authorized token" do
+  #       it "doesn't authenticate" do
+  #         get '/', {}, { "HTTP_AUTHORIZATION" => "Token not_authorized" }
+  #         last_response.should be_ok
+  #         response = MultiJson.decode(last_response.body)
+  #         response.should == {}
+  #       end
+  #     end
+  #
+  #     context "authorized and invalidated token" do
+  #       it "doesn't authenticate with an invalidated token" do
+  #         get '/', {}, { "HTTP_AUTHORIZATION" => "Token invalidated" }
+  #         last_response.should be_ok
+  #         response = MultiJson.decode(last_response.body)
+  #         response.should == {}
+  #       end
+  #     end
+  #   end
+  #
+  #   ['bearer_token', 'access_token', 'oauth_token'].each do |name|
+  #     describe "token given through the query parameter '#{name}'" do
+  #       context "authorized and non-invalidated token" do
+  #         it "authenticates" do
+  #           get "/?#{name}=valid_token"
+  #
+  #           last_response.should be_ok
+  #           response = MultiJson.decode(last_response.body)
+  #           response.should == { "oauth_token" => "valid_token", "oauth_version" => 2, "strategies"=> ["oauth20_token", "token"] }
+  #         end
+  #       end
+  #
+  #       context "non-authorized token" do
+  #         it "doesn't authenticate" do
+  #           get "/?#{name}=not_authorized"
+  #           last_response.should be_ok
+  #           response = MultiJson.decode(last_response.body)
+  #           response.should == {}
+  #         end
+  #       end
+  #
+  #       context "authorized and invalidated token" do
+  #         it "doesn't authenticate with an invalidated token" do
+  #           get "/?#{name}=invalidated"
+  #           last_response.should be_ok
+  #           response = MultiJson.decode(last_response.body)
+  #           response.should == {}
+  #         end
+  #       end
+  #     end
+  #
+  #     describe "token given through the post parameter '#{name}'" do
+  #       context "authorized and non-invalidated token" do
+  #         it "authenticates" do
+  #           post '/', name => 'valid_token'
+  #           last_response.should be_ok
+  #           response = MultiJson.decode(last_response.body)
+  #           response.should == { "oauth_token" => "valid_token", "oauth_version" => 2, "strategies"=> ["oauth20_token", "token"] }
+  #         end
+  #       end
+  #
+  #       context "non-authorized token" do
+  #         it "doesn't authenticate" do
+  #           post '/', name => 'not_authorized'
+  #           last_response.should be_ok
+  #           response = MultiJson.decode(last_response.body)
+  #           response.should == {}
+  #         end
+  #       end
+  #
+  #       context "authorized and invalidated token" do
+  #         it "doesn't authenticate with an invalidated token" do
+  #           post '/', name => 'invalidated'
+  #           last_response.should be_ok
+  #           response = MultiJson.decode(last_response.body)
+  #           response.should == {}
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
 end
